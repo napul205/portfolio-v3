@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void worstFit(int blockSize[], int m, int processSize[], int n)
+{
+    int allocation[n];
+    memset(allocation, -1, sizeof(allocation));
+    bool occupied[m];
+    memset(occupied,false,sizeof(occupied));
+
+	for (int i=0; i<n; i++)
+	{
+		int b_id = -1;
+		for (int j=0; j<m; j++)
+		{
+		    if(occupied[j] == false){
+		        
+			    if (blockSize[j] >= processSize[i])
+			    {
+			    	if (b_id == -1)
+			    		b_id = j;
+			    	else if (blockSize[b_id] > blockSize[j])
+			    		b_id = j;
+			    		
+			    }
+		    }
+		}
+
+		if (b_id != -1)
+		{
+			allocation[i] = b_id;
+			occupied[b_id] = true;
+
+		}
+	}
+
+	cout << "\nP No.\tSize\tBlock no.\n";
+	for (int i = 0; i < n; i++)
+	{
+		cout << i+1 << "\t\t" << processSize[i] << "\t\t";
+		if (allocation[i] != -1)
+			cout << allocation[i] + 1;
+		else
+			cout << "Not Allocated";
+		cout << endl;
+	}
+}
+
+// Driver code
+int main()
+{
+	int blockSize[] = {100, 500, 200, 300, 600};
+	int processSize[] = {212, 417, 112, 426};
+	int m = sizeof(blockSize)/sizeof(blockSize[0]);
+	int n = sizeof(processSize)/sizeof(processSize[0]);
+
+	worstFit(blockSize, m, processSize, n);
+
+	return 0 ;
+}
